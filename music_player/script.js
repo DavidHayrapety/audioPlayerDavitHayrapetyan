@@ -18,3 +18,48 @@ let data = {
         "https://static.stereogum.com/uploads/2019/11/The-Bee-Gees-Stayin-Alive-1574874474-520x520.jpg",
     ],
 }
+
+let song = new Audio
+
+window.onload = function (){
+    playSong()
+}
+
+let currentSong=0
+function playSong(){
+    song.src = data.song[currentSong]
+    let songTitle = document.getElementById("songTitle")
+    songTitle.textContent = data.title[currentSong]
+
+    let img = document.getElementsByClassName("row1")[0]
+    img.style.backgroundImage = "url(" +data.poster[currentSong] + ")"
+    
+    let main = document.getElementsByClassName("main")[0]
+    main.style.backgroundImage = "url(" +data.poster[currentSong] + ")"
+    
+    song.play()
+}
+
+function playOrPauseSong(){
+    let play = document.getElementById("play")
+
+    if(song.paused){
+        song.play()
+        play.src = "images/pause.png"
+    }else {
+        
+        song.pause()
+        play.src = "images/play-button-arrowhead.png"
+    }
+}
+
+song.addEventListener("timeupdate", function (){
+    let fill = document.getElementsByClassName("fill")[0]
+
+    let position = (song.currentTime/song.duration) * 99
+    console
+    fill.style.marginLeft = position + "%"
+
+
+
+})
