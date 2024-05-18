@@ -13,7 +13,7 @@ body {
     height: 100%;
     background-image: url("https://i.pinimg.com/originals/9d/9f/d1/9d9fd1e40f9ddcac105b3c99766db95a.gif");
     background-size: cover;
-    filter: blur();
+    filter: blur(8px);
     background-position-y: 50%;
     background-position-x: 50%;
 }
@@ -67,7 +67,6 @@ body {
     height: auto;
     background-size: cover;
     margin-top: 20px;
-    /* margin-top: 20px; */
 }
 
 #play {
@@ -90,7 +89,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 1px black solid; */
 }
 
 .handle {
@@ -113,11 +111,9 @@ body {
 .mute {
     height: 40%;
     width: 100%;
-    /* flex-direction: column; */
     align-items: center;
     justify-content: space-between;
     display: flex;
-    /* padding-left: 20px; */
 }
 
 .currentTime {
