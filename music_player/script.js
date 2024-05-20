@@ -26,6 +26,8 @@ window.onload = function () {
 }
 
 let currentSong = 0
+let isDragging = false 
+
 function playSong() {
     song.src = data.song[currentSong]
     let songTitle = document.getElementById("songTitle")
@@ -36,6 +38,20 @@ function playSong() {
 
     let main = document.getElementsByClassName("main")[0]
     main.style.backgroundImage = "url(" + data.poster[currentSong] + ")"
+
+    let currentTime = document.getElementsByClassName("currentTime")[0]
+    currentTime.style.visibility = "hidden"
+    currentTime.textContent = "00 : 00 / 00 : 00"
+
+    song.addEventListener('loadedmetadata', updateTimeOnLoad)
+}
+
+function updateTimeOnLoad() {
+    song.removeEventListener('loadedmetadata', updateTimeOnLoad)
+    convertTime(song.currentTime)
+
+    let currentTime = document.getElementsByClassName("currentTime")[0]
+    currentTime.style.visibility = "visible"
 
     song.play()
 }
@@ -131,4 +147,49 @@ function increase() {
         mute.src = "images/volume.png"
         song.muted = false
     }
+}
+
+function seek(event) {
+    let handle = document.getElementsByClassName("handle")[0]
+    let rect = handle.getBoundingClientRect()
+    let offsetX = event.clientX - rect.left
+    let totalWidth = handle.offsetWidth
+    let percentage = offsetX / totalWidth
+    let newTime = percentage * song.duration
+    song.currentTime = newTime
+}
+
+let handle = document.getElementsByClassName("handle")[0]
+handle.addEventListener("mousedown", startDrag)
+window.addEventListener("mousemove", duringDrag)
+window.addEventListener("mouseup", endDrag)
+
+function startDrag(event) {
+    isDragging = true
+    seek(event)
+}
+
+function duringDrag(event) {
+    if (isDragging) {
+        seek(event)
+    }
+}
+
+function endDrag(event) {
+    if (isDragging) {
+        isDragging = false
+        seek(event)
+    }
+}
+
+function decreasePlaybackRate() {
+    song.playbackRate = Math.max(0.5, song.playbackRate - 0.1) // Minimum 0.5x speed
+}
+
+function increasePlaybackRate() {
+    song.playbackRate = Math.min(2.0, song.playbackRate + 0.1) // Maximum 2x speed
+}
+
+function resetPlaybackRate() {
+    song.playbackRate = 1.0 // Reset to normal speed
 }
